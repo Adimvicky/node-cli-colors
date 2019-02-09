@@ -1,5 +1,8 @@
+
+// Create a console 
 const _console = Object.create(console);
 
+// Escape sequnces for the different colors
 _console.colorCodes = {
     black : '\x1b[30m',
     bgBlack : '\x1b[40m',
@@ -17,20 +20,21 @@ _console.colorCodes = {
     bgCyan : '\x1b[46m',
     white : '\x1b[37m',
     bgWhite : '\x1b[47m',
-  
     underline : '\x1b[4m',
-    
-    
 }
 
+// Color reset (for end of lines)
 _console.colorReset = '\x1b[0m';
 
+// Create functions of the `_console.{color}` type
 for(let color in _console.colorCodes){
     _console[color] = function(str){
         console.log(`\x1b[${_console.colorCodes[color]}%s${_console.colorReset}`,str);
     }
 }
 
+
+// Create the _console.log function
 _console.log = function(str,args){
     if(!args){
         return console.log(str);
@@ -57,5 +61,5 @@ _console.log = function(str,args){
     console.log(escapeSequence,str);
 }
 
-
+// Export object
 module.exports = _console;
