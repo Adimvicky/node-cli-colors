@@ -1,6 +1,6 @@
 {
   "name": "node-cli-colors",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Print colored text to your nodejs console",
   "main": "index.js",
   "scripts": {
