@@ -24,22 +24,21 @@ _console.log('This text will have a white background,red text color and an under
 ### Available styles / colors
 **styles beginning with a 'bg' are background colors**
 
-**black**
-**bgBlack**
-**red**
-**bgRed**
-**green**
-**bgGreen**
-**yellow**
-**bgYellow**
-**blue**
-**bgBlue**
-**magenta**
-**bgMagenta**
-**cyan**
-**bgCyan**
-**white**
-**bgWhite**
+**black**,
+**bgBlack**,
+**red**,
+**bgRed**,
+**green**,
+**bgGreen**,
+**yellow**,
+**bgYellow**,
+**blue**,
+**bgBlue**,
+**magenta**,
+**bgMagenta**,
+**cyan**,
+**bgCyan**,
+**white**,
+**bgWhite**,
 **underline**
-
 
