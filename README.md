@@ -4,7 +4,7 @@ Looking at white logs on your console can be really confusing and boring at the 
 Level up your CLI game by printing colored text, with background colors and some text formatting to your nodejs console using node-cli-colors!
 
 
-![Example Logs using node-cli-colors](./node-cli-colors.png)
+![Example Logs using node-cli-colors](/node-cli-colors.PNG)
 
 ## API
 
