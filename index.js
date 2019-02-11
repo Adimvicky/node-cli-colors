@@ -28,26 +28,40 @@ _console.colorReset = '\x1b[0m';
 
 // Create functions of the `_console.{color}` type
 for(let color in _console.colorCodes){
-    _console[color] = function(str){
-        console.log(`\x1b[${_console.colorCodes[color]}%s${_console.colorReset}`,str);
+    _console[color] = function(str,...args){
+        args = typeof(args) === 'object' && args instanceof Array ? args : [];
+        let fullString = str + args.join(' ');
+        console.log(`\x1b[${_console.colorCodes[color]}%s${_console.colorReset}`,fullString);
     }
 }
 
 
 // Create the _console.log function
-_console.log = function(str,args){
+_console.log = function(str,...args){
     if(!args){
         return console.log(str);
     }
     let escapeSequence = '';
-    if(typeof(args) === 'object' && args instanceof Array){
-        for(let style of args){
-            if(_console.colorCodes.hasOwnProperty(style)){
-                escapeSequence += _console.colorCodes[style];
+    let nonStyleStrings = [];
+    if(typeof(args) === 'object' && args instanceof Array && !(args[0] instanceof Array)){
+        for(let element of args){
+            if(_console.colorCodes.hasOwnProperty(element)){
+                escapeSequence += _console.colorCodes[element];
+            } else {
+               nonStyleStrings.push(element)
             }
         }
     } else {
-        if(typeof(args) === 'string' && args.length > 0 && !(args in _console.colorCodes)){
+        if(args[0] instanceof Array){
+            for(let element of args[0]){
+                if(_console.colorCodes.hasOwnProperty(element)){
+                    escapeSequence += _console.colorCodes[element];
+                } else {
+                   nonStyleStrings.push(element)
+                }
+            }
+        }
+        if(typeof(args) === 'string' && !(args in _console.colorCodes)){
             return console.log(str,args);
         } else {
             if(_console.colorCodes.hasOwnProperty(args)){
@@ -55,7 +69,7 @@ _console.log = function(str,args){
             }
         }
     }
-    escapeSequence += '%s';
+    escapeSequence += '%s '+nonStyleStrings.join(' ');
     escapeSequence += _console.colorReset;
 
     console.log(escapeSequence,str);
