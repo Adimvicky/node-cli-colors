@@ -3,35 +3,35 @@
 const _console = Object.create(console);
 
 // Escape sequnces for the different colors
-_console.colorCodes = {
+let colorCodes = {
     black : '\x1b[30m',
     bgBlack : '\x1b[40m',
-    red : '\x1b[31m',
-    bgRed : '\x1b[41m',
-    green : '\x1b[32m',
-    bgGreen : '\x1b[42m',
-    yellow : '\x1b[33m',
-    bgYellow : '\x1b[43m',
-    blue : '\x1b[34m',
-    bgBlue : '\x1b[44m',
-    magenta : '\x1b[35m',
-    bgMagenta : '\x1b[45m',
-    cyan : '\x1b[36m',
-    bgCyan : '\x1b[46m',
-    white : '\x1b[37m',
-    bgWhite : '\x1b[47m',
+    red : '\x1b[91m',
+    bgRed : '\x1b[101m',
+    green : '\x1b[922m',
+    bgGreen : '\x1b[102m',
+    yellow : '\x1b[93m',
+    bgYellow : '\x1b[103m',
+    blue : '\x1b[94m',
+    bgBlue : '\x1b[104m',
+    magenta : '\x1b[95m',
+    bgMagenta : '\x1b[105m',
+    cyan : '\x1b[96m',
+    bgCyan : '\x1b[106m',
+    white : '\x1b[97m',
+    bgWhite : '\x1b[107m',
     underline : '\x1b[4m',
 }
 
 // Color reset (for end of lines)
-_console.colorReset = '\x1b[0m';
+let colorReset = '\x1b[0m';
 
 // Create functions of the `_console.{color}` type
-for(let color in _console.colorCodes){
+for(let color in colorCodes){
     _console[color] = function(str,...args){
         args = typeof(args) === 'object' && args instanceof Array ? args : [];
         let fullString = str + args.join(' ');
-        console.log(`\x1b[${_console.colorCodes[color]}%s${_console.colorReset}`,fullString);
+        console.log(`\x1b[${colorCodes[color]}%s${colorReset}`,fullString);
     }
 }
 
@@ -45,8 +45,8 @@ _console.log = function(str,...args){
     let nonStyleStrings = [];
     if(typeof(args) === 'object' && args instanceof Array && !(args[0] instanceof Array)){
         for(let element of args){
-            if(_console.colorCodes.hasOwnProperty(element)){
-                escapeSequence += _console.colorCodes[element];
+            if(colorCodes.hasOwnProperty(element)){
+                escapeSequence += colorCodes[element];
             } else {
                nonStyleStrings.push(element)
             }
@@ -54,23 +54,25 @@ _console.log = function(str,...args){
     } else {
         if(args[0] instanceof Array){
             for(let element of args[0]){
-                if(_console.colorCodes.hasOwnProperty(element)){
-                    escapeSequence += _console.colorCodes[element];
+                if(colorCodes.hasOwnProperty(element)){
+                    escapeSequence += colorCodes[element];
                 } else {
                    nonStyleStrings.push(element)
                 }
             }
         }
-        if(typeof(args) === 'string' && !(args in _console.colorCodes)){
+        if(typeof(args) === 'string' && !(args in colorCodes)){
             return console.log(str,args);
         } else {
-            if(_console.colorCodes.hasOwnProperty(args)){
-                escapeSequence += _console.colorCodes[args]
+            if(colorCodes.hasOwnProperty(args)){
+                escapeSequence += colorCodes[args]
             }
         }
     }
+    // Add all strings that aren't styles to the output string
     escapeSequence += '%s '+nonStyleStrings.join(' ');
-    escapeSequence += _console.colorReset;
+    // Reset the color of the line back to default at the end of the line
+    escapeSequence += colorReset;
 
     console.log(escapeSequence,str);
 }
